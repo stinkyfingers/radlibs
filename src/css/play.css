@@ -1,0 +1,25 @@
+div.text {
+  font-size: 1.4em
+}
+
+label.term {
+  color: var(--dark-grey);
+}
+
+
+button.reset {
+  color: var(--black);
+  background-color: var(--yellow);
+}
+
+button.submit {
+  color: var(--white);
+  background-color: var(--green);
+}
+
+div.actions {
+  padding: 1em;
+  display: flex;
+  direction: row;
+  justify-content: space-around;
+}

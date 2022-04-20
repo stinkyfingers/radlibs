@@ -1,0 +1,11 @@
+div.Login, div.Logout {
+  display: inline;
+}
+button.login {
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+button.login:hover {
+  cursor: pointer;
+}

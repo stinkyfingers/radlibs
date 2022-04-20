@@ -1,0 +1,25 @@
+div.logo {
+  font-size: 4em;
+  color: var(--blue);
+}
+
+div.menu {
+  background-color: var(--light-grey);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+button.menu {
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+button.menu a {
+  text-decoration: none;
+  color: var(--white)
+}
+
+button.menu:hover {
+  cursor: pointer;
+}

@@ -1,0 +1,110 @@
+import React from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { UserContext } from '../Context';
+import { get, update, create, remove } from '../Api';
+
+import '../css/edit.css';
+
+const commonPOS = [
+  'noun',
+  'verb',
+  'adjective',
+  'adverb',
+  'name',
+  'exclamation',
+  'verb ending in "ing"'
+];
+
+
+
+const Edit = ({ setErr }) => {
+  const user = React.useContext(UserContext);
+  const emptyLib = { user: user.googleId, rating: 'G' };
+  const [lib, setLib] = React.useState(emptyLib);
+  const [cursor, setCursor] = React.useState(0); // track last cursor position for inserts
+  const [status, setStatus] = React.useState();
+  const { id } = useParams();
+  const textareaRef = React.useRef();
+  const navigate = useNavigate();
+  React.useEffect(() => {
+    const getFunc = async () => {
+      const resp = await get(id);
+      setLib(resp);
+    };
+    if (!id) return;
+    getFunc().catch(setErr);
+  }, [id]);
+
+  const handleChange = (e) => {
+    setStatus();
+    setErr();
+    setLib(prev => ({ ...prev, [e.target.className]: e.target.value }));
+  };
+
+  const handleSave = async () => {
+    const save = lib._id ? update : create;
+    try {
+      const resp = await save(lib);
+      setLib(resp);
+      setStatus('Saved!');
+      navigate(`/edit/${resp._id}`);
+    } catch (err) {
+      setErr(err);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure?")) return;
+    try {
+      await remove(lib._id);
+      setStatus('Deleted!');
+      setLib(emptyLib);
+      navigate('/');
+    } catch (err) {
+      setErr(err);
+    }
+  };
+
+  const handleClick = (e) => {
+    const pos = `{{ ${e.target.value} }}`
+    setLib(prev => ({ ...prev, text: prev.text.slice(0, cursor) + pos + prev.text.slice(cursor) }));
+  };
+
+  const handleBlur = (e) => {
+    setCursor(textareaRef.current.selectionStart);
+  };
+
+  const renderPOS = () => {
+    const buttons = commonPOS.map(pos => {
+      return <button key={pos} className='pos' onClick={handleClick} value={pos}>{pos}</button>;
+    });
+    return <div className='pos'>{buttons}</div>;
+  };
+
+  return <div className='Edit'>
+    <div className='status'>{status}</div>
+    <div className='title'>
+      <label>Title</label>
+      <input type='text' className='title' defaultValue={lib.title} onChange={handleChange} />
+    </div>
+    <div className='text'>
+      <label>Text</label>
+      <textarea className='text' onChange={handleChange} ref={textareaRef} onBlur={handleBlur} value={lib.text}></textarea>
+    </div>
+    {renderPOS()}
+    <div className='rating'>
+      <label>Rating</label>
+      <select onChange={handleChange} className='rating'>
+        <option>G</option>
+        <option>PG</option>
+        <option>R</option>
+      </select>
+    </div>
+    <div className='actions'>
+      <button disabled={!lib.text || !lib.title} className='save' onClick={handleSave}>Save</button>
+      <button disabled={!lib._id} className='delete' onClick={handleDelete}>Delete</button>
+    </div>
+  </div>;
+};
+
+export default Edit;

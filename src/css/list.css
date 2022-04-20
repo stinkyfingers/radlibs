@@ -1,0 +1,39 @@
+div.List {
+  margin: auto;
+  display: inline-block;
+  max-width: 100%
+}
+
+table.libs {
+  overflow-x: auto;
+  max-width: fit-context;
+  display: block;
+  max-width: -moz-fit-content;
+  /* white-space: nowrap; */
+}
+
+table.libs>thead>tr>th {
+  background-color: var(--light-grey);
+}
+
+table.libs>tbody>tr:hover {
+  background-color: var(--light-grey);
+}
+
+td.user,td.created {
+  font-size: .6em
+}
+
+button.play {
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+button.edit {
+  background-color: var(--yellow);
+}
+
+div.status {
+  color: var(--white);
+  background-color: var(--green);
+}
