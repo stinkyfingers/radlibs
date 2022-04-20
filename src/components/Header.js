@@ -1,9 +1,10 @@
-import { BrowserRouter, Link, Routes, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import React from 'react';
 import Login from './Login';
 import Logout from './Logout';
 
 import '../css/header.css';
+import logo from '../media/android-chrome-192x192.png';
 
 const Router = () => {
   return (
@@ -21,7 +22,10 @@ const Header = ({ user, setUser, setErr }) => {
   };
 
   return <div className='Header'>
-    <div className='logo'>Radlibs</div>
+    <div className='logo'>
+      <img className='logo' src={logo} alt='Radlibs' />
+      &nbsp;Radlibs
+    </div>
     <div className='menu'>
       {renderLogin()}
       <Router />

@@ -3,6 +3,10 @@ div.logo {
   color: var(--blue);
 }
 
+img.logo {
+  width: 1em;
+}
+
 div.menu {
   background-color: var(--light-grey);
   display: flex;
