@@ -1,12 +1,11 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { get } from '../Api';
-import { UserContext } from '../Context';
 
 import '../css/play.css';
 
 const populate = (text, inputs) => {
-  const regex = /{{[a-zA-Z0-9 ]*}}/;
+  const regex = /{{[a-zA-Z0-9 "!@#$%^&()-_+=;':,./]*}}/;
   for (const i in inputs) {
     text = text.replace(regex, inputs[i]);
   };
@@ -16,7 +15,6 @@ const populate = (text, inputs) => {
 const Play = ({ setErr }) => {
   const [lib, setLib] = React.useState();
   const [inputs, setInputs] =  React.useState({});
-  const user = React.useContext(UserContext);
   const { id } = useParams();
 
   React.useEffect(() => {
@@ -26,7 +24,7 @@ const Play = ({ setErr }) => {
     };
     if (!id) return;
     getFunc().catch(setErr);
-  }, []);
+  }, [id, setErr]);
 
   const handleTermChange = (e, i) => {
     setInputs(prev => ({ ...prev, [i]: e.target.value }));
@@ -42,7 +40,7 @@ const Play = ({ setErr }) => {
   }
 
   const renderPopulate = () => {
-    const regex = /{{[a-zA-Z0-9 ]*}}/g;
+    const regex = /{{[a-zA-Z0-9 "!@#$%^&()-_+=;':,./]*}}/g;
     const all = [...lib.text.match(regex)];
     const terms =  all.map((term, i) =>
       <div key={`term-${i}`} className='term'>

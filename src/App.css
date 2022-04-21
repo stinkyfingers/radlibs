@@ -6,8 +6,8 @@
   --blue: #00f;
   --white: #fff;
   --light-grey: #eee;
-  --grey: #ddd;
-  --dark-grey: #aaa;
+  --grey: #888;
+  --dark-grey: #444;
   --red: #f44;
   --yellow: #ff4;
   --green: #0f0;
@@ -16,7 +16,6 @@
 button {
   border: 0;
   border-radius: .2em;
-  padding: 0em .6em;
   font-size: 1.4em;
   width: 6em;
 }

@@ -12,17 +12,19 @@ const commonPOS = [
   'adverb',
   'name',
   'exclamation',
-  'verb ending in "ing"'
+  'verb ending in -ing',
+  'past tense verb',
+  'place'
 ];
-
 
 
 const Edit = ({ setErr }) => {
   const user = React.useContext(UserContext);
-  const emptyLib = { user: user.googleId, rating: 'G' };
+  const emptyLib = { user: user.googleId, rating: 'G' , text: ''};
   const [lib, setLib] = React.useState(emptyLib);
   const [cursor, setCursor] = React.useState(0); // track last cursor position for inserts
   const [status, setStatus] = React.useState();
+  const [customButton, setCustomButton] = React.useState('');
   const { id } = useParams();
   const textareaRef = React.useRef();
   const navigate = useNavigate();
@@ -33,7 +35,7 @@ const Edit = ({ setErr }) => {
     };
     if (!id) return;
     getFunc().catch(setErr);
-  }, [id]);
+  }, [id, setErr]);
 
   const handleChange = (e) => {
     setStatus();
@@ -68,6 +70,7 @@ const Edit = ({ setErr }) => {
   const handleClick = (e) => {
     const pos = `{{ ${e.target.value} }}`
     setLib(prev => ({ ...prev, text: prev.text.slice(0, cursor) + pos + prev.text.slice(cursor) }));
+    textareaRef.current.focus()
   };
 
   const handleBlur = (e) => {
@@ -78,7 +81,14 @@ const Edit = ({ setErr }) => {
     const buttons = commonPOS.map(pos => {
       return <button key={pos} className='pos' onClick={handleClick} value={pos}>{pos}</button>;
     });
-    return <div className='pos'>{buttons}</div>;
+    return <div className='pos'>
+      <div className='customButton'>
+        <label className='custom'>Custom type</label>
+        <input className='custom' onChange={(e) => setCustomButton(e.target.value)} placeholder='your custom type'/>
+        {customButton ? <button key='custom' className='pos' onClick={handleClick} value={customButton}>{customButton}</button> : null}
+      </div>
+      {buttons}
+    </div>;
   };
 
   return <div className='Edit'>

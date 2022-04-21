@@ -6,11 +6,19 @@ label {
 }
 
 input, textarea, select {
-  width: 50%;
   padding: .2em .2em;
   margin: 8px 0;
   box-sizing: border-box;
+}
+
+input, select {
   font-size: 1.4em;
+  width: 50%;
+}
+
+textarea {
+  width: 90%;
+  min-height: 10em;
 }
 
 select {
@@ -25,14 +33,16 @@ div.actions {
 }
 
 div.pos {
-  display: flex;
-  justify-content: space-around;
+  display: inline;
+
 }
 
 button.pos {
   font-size: .8em;
   background-color: var(--blue);
   color: var(--white);
+  margin: .4em;
+  font-size: 1.2em
 }
 
 button.save {
@@ -43,4 +53,12 @@ button.save {
 button.delete {
   background-color: var(--red);
   color: var(--white);
+}
+
+input.custom {
+  width: 12em
+}
+
+label.custom {
+  font-size: .6em;
 }
