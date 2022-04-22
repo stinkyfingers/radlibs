@@ -22,7 +22,7 @@ const List = ({ setErr }) => {
     const data = libs.map(lib =>
       <tr key={lib._id} className='libRow'>
         <td><Link to={`/play/${lib._id}`}><button className='play'>Play</button></Link></td>
-        { user && user.googleId === lib.user.id ? <td><Link to={`/edit/${lib._id}`}><button className='edit'>Edit</button></Link></td> : <td /> }
+        { user && user.googleId === lib.user.id ? <td><Link to={`/edit/${lib._id}`}><button className='edit'>Edit</button></Link></td> : null }
         <td>{lib.title}</td>
         <td>{lib.rating}</td>
         <td className='user'>{lib.user.name}</td>
