@@ -37,7 +37,6 @@ export const update = async({ lib, token }) => {
 };
 
 export const create = async({ lib, token }) => {
-  console.log(token)
   const res = await fetch(`${api()}/lib/create`, {
     method: 'PUT',
     headers: {
@@ -47,7 +46,6 @@ export const create = async({ lib, token }) => {
     body: JSON.stringify(lib)
   });
   const data = await res.json();
-  console.log(data, res.status)
   if (res.status !== 200) {
     return { error: data.message };
   }
