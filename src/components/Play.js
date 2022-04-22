@@ -41,7 +41,13 @@ const Play = ({ setErr }) => {
 
   const renderPopulate = () => {
     const regex = /{{[a-zA-Z0-9 "!@#$%^&()-_+=;':,./]*}}/g;
-    const all = [...lib.text.match(regex)];
+    const inputs = lib.text.match(regex);
+    if (!inputs) { // handle no inputs
+      setLib(prev => ({ ...lib, complete: lib.text }));
+      return;
+    };
+
+    const all = [...inputs];
     const terms =  all.map((term, i) =>
       <div key={`term-${i}`} className='term'>
         <label className='term'>{term.replace('{{', '').replace('}}','')}</label>
@@ -63,6 +69,8 @@ const Play = ({ setErr }) => {
   </div>
 
   if (!lib) return null;
+
+
 
   return <div className='Play'>
     <div className='title'>{lib.title}</div>
