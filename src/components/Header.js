@@ -17,7 +17,7 @@ const Router = () => {
 
 const Header = ({ user, setUser, setErr }) => {
   const renderLogin = () => {
-    if (user) return <Logout setUser={setUser} />;
+    if (user) return <Logout user={user} setUser={setUser} setErr={setErr} />;
     return <Login setUser={setUser} setErr={setErr} />;
   };
 

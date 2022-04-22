@@ -10,30 +10,48 @@ export const get = async(id) => {
   return data;
 };
 
-export const update = async(lib) => {
+export const update = async({ lib, token }) => {
   const res = await fetch(`http://localhost:8088/lib/update`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': token
+    },
     body: JSON.stringify(lib)
   });
   const data = await res.json();
+  if (res.status !== 200) {
+    return { error: data.message };
+  }
   return data;
 };
 
-export const create = async(lib) => {
+export const create = async({ lib, token }) => {
   const res = await fetch(`http://localhost:8088/lib/create`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': token
+    },
     body: JSON.stringify(lib)
   });
   const data = await res.json();
+  if (res.status !== 200) {
+    return { error: data.message };
+  }
   return data;
 };
 
-export const remove = async(id) => {
+export const remove = async({ id, token }) => {
   const res = await fetch(`http://localhost:8088/lib/delete?id=${id}`, {
-    method: 'DELETE'
+    method: 'DELETE',
+    headers: {
+      'Authorization': token
+    }
   });
   const data = await res.json();
+  if (res.status !== 200) {
+    return { error: data.message };
+  }
   return data;
 };

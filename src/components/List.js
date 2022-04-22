@@ -18,13 +18,14 @@ const List = ({ setErr }) => {
   }, [setErr]);
 
   const renderLibs = () => {
+    if (!libs) return null;
     const data = libs.map(lib =>
       <tr key={lib._id} className='libRow'>
         <td><Link to={`/play/${lib._id}`}><button className='play'>Play</button></Link></td>
-        { user && user.googleId === lib.user ? <td><Link to={`/edit/${lib._id}`}><button className='edit'>Edit</button></Link></td> : <td /> }
+        { user && user.googleId === lib.user.id ? <td><Link to={`/edit/${lib._id}`}><button className='edit'>Edit</button></Link></td> : <td /> }
         <td>{lib.title}</td>
         <td>{lib.rating}</td>
-        <td className='user'>{lib.user}</td>
+        <td className='user'>{lib.user.name}</td>
         <td className='created'>{(new Date(lib.created)).toUTCString()}</td>
       </tr>
     );

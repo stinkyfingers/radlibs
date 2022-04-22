@@ -3,11 +3,19 @@ import { GoogleLogout } from 'react-google-login';
 
 const clientId = '520868981613-vpe0s1lild8cl62hblmg9bfl01fplu06.apps.googleusercontent.com'; // TODO config
 
-const Logout = ({ setUser }) => {
+const Logout = ({ user, setUser, setErr }) => {
   const onSuccess = (res) => {
     localStorage.removeItem('user');
     setUser(null);
   };
+
+  React.useEffect(() => {
+    if (user && user.tokenObj && user.tokenObj.expires_at < Date.now()) {
+      localStorage.removeItem('user');
+      setUser(null);
+      setErr('Session expired. Please log in again.');
+    }
+  }, [setUser, setErr, user]);
 
   return (
     <div className='Logout'>

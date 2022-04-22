@@ -17,10 +17,14 @@ const commonPOS = [
   'place'
 ];
 
+const radlibsUser = (googleUser) => {
+  if (!googleUser) return {};
+  return { id: googleUser.googleId, name: googleUser.profileObj.name, email: googleUser.profileObj.email };
+};
 
 const Edit = ({ setErr }) => {
   const user = React.useContext(UserContext);
-  const emptyLib = { user: user.googleId, rating: 'G' , text: ''};
+  const emptyLib = { user: radlibsUser(user), rating: 'G' , text: ''};
   const [lib, setLib] = React.useState(emptyLib);
   const [cursor, setCursor] = React.useState(0); // track last cursor position for inserts
   const [status, setStatus] = React.useState();
@@ -46,7 +50,12 @@ const Edit = ({ setErr }) => {
   const handleSave = async () => {
     const save = lib._id ? update : create;
     try {
-      const resp = await save(lib);
+
+      const resp = await save({ lib, token: user.tokenId });
+      if (resp.error) {
+        setErr(resp.error);
+        return;
+      }
       setLib(resp);
       setStatus('Saved!');
       navigate(`/edit/${resp._id}`);
@@ -58,7 +67,11 @@ const Edit = ({ setErr }) => {
   const handleDelete = async () => {
     if (!window.confirm("Are you sure?")) return;
     try {
-      await remove(lib._id);
+      const resp = await remove({ id: lib._id, token: user.tokenId });
+      if (resp.error) {
+        setErr(resp.error);
+        return;
+      }
       setStatus('Deleted!');
       setLib(emptyLib);
       navigate('/');

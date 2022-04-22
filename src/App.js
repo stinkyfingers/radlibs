@@ -26,7 +26,7 @@ function App() {
   return (
     <div className="App">
       <UserContext.Provider value={user}>
-        <Header user={user} setUser={setUser} setErr={setErr} />
+        <Header user={user} user={user} setUser={setUser} setErr={setErr} />
         <div className='content'>
           {renderError()}
           {routes}
