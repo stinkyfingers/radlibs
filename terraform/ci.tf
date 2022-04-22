@@ -1,5 +1,5 @@
 resource "aws_iam_role" "build" {
-  name = "${var.project}_build"
+  name               = "${var.project}_build"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -16,7 +16,7 @@ resource "aws_iam_role" "build" {
 EOF
 }
 resource "aws_iam_role_policy" "build" {
-  role = aws_iam_role.build.name
+  role   = aws_iam_role.build.name
   policy = <<POLICY
 {
   "Version": "2012-10-17",
@@ -102,12 +102,12 @@ resource "aws_codebuild_webhook" "app" {
   project_name = aws_codebuild_project.app.name
   filter_group {
     filter {
-      type = "EVENT"
+      type    = "EVENT"
       pattern = "PUSH"
     }
 
     filter {
-      type = "HEAD_REF"
+      type    = "HEAD_REF"
       pattern = "master"
     }
   }

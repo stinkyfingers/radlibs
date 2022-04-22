@@ -7,7 +7,7 @@ provider "aws" {
 # s3
 resource "aws_s3_bucket" "bucket" {
   bucket = "${var.project}.${var.domain}"
-  acl = "private"
+  acl    = "private"
   policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -40,7 +40,7 @@ EOF
 }
 
 resource "aws_s3_bucket_public_access_block" "pab" {
-  bucket = aws_s3_bucket.bucket.id
+  bucket              = aws_s3_bucket.bucket.id
   block_public_acls   = true
   block_public_policy = true
 }
@@ -68,19 +68,25 @@ resource "aws_cloudfront_distribution" "distribution" {
 
   aliases = ["${var.project}.${var.domain}"]
 
+  custom_error_response {
+    error_code         = 403
+    response_code      = 200
+    response_page_path = "/index.html"
+  }
+
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = local.s3_origin_id
-    trusted_signers = []
+    trusted_signers  = []
 
     forwarded_values {
-      query_string = false
+      query_string            = false
       query_string_cache_keys = []
-      headers = []
+      headers                 = []
 
       cookies {
-        forward = "none"
+        forward           = "none"
         whitelisted_names = []
       }
     }
@@ -92,16 +98,16 @@ resource "aws_cloudfront_distribution" "distribution" {
   }
   restrictions {
     geo_restriction {
-        locations        = []
-        restriction_type = "none"
+      locations        = []
+      restriction_type = "none"
     }
-}
+  }
 
   viewer_certificate {
-      acm_certificate_arn            = var.certificate_arn
-      cloudfront_default_certificate = false
-      minimum_protocol_version       = "TLSv1.1_2016"
-      ssl_support_method             = "sni-only"
+    acm_certificate_arn            = var.certificate_arn
+    cloudfront_default_certificate = false
+    minimum_protocol_version       = "TLSv1.1_2016"
+    ssl_support_method             = "sni-only"
   }
 }
 
