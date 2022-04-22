@@ -10,7 +10,6 @@ const api = () => {
 export const list = async() => {
   const res = await fetch(`${api()}/lib/all`);
   const data = await res.json();
-  console.log(data)
   return data;
 };
 

@@ -10,7 +10,7 @@ const Router = () => {
   return (
     <>
       <Link to='/edit'><button className='menu'>Create</button></Link>
-      <Link to='/'><button className='menu'>List</button></Link>
+      <Link to='/list'><button className='menu'>List</button></Link>
     </>
   );
 };
@@ -23,7 +23,7 @@ const Header = ({ user, setUser, setErr }) => {
 
   return <div className='Header'>
     <div className='logo'>
-      <img className='logo' src={logo} alt='Radlibs' />
+      <Link to='/'><img className='logo' src={logo} alt='Radlibs' /></Link>
       &nbsp;Radlibs
     </div>
     <div className='menu'>

@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Play from './components/Play';
 import List from './components/List';
 import Edit from './components/Edit';
+import Info from './components/Info';
 import { UserContext } from './Context';
 import './App.css';
 
@@ -20,7 +21,8 @@ function App() {
     { path: '/play/:id', element: <Play setErr={setErr} /> },
     { path: '/edit/:id', element: <Edit setErr={setErr} /> },
     { path: '/edit', element: <Edit setErr={setErr} /> },
-    { path: '/', element: <List setErr={setErr} /> },
+    { path: '/list', element: <List setErr={setErr} /> },
+    { path: '/', element: <Info setErr={setErr} /> },
   ]);
 
   return (
