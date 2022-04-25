@@ -6,10 +6,10 @@ import Logout from './Logout';
 import '../css/header.css';
 import logo from '../media/android-chrome-192x192.png';
 
-const Router = () => {
+const Router = ({ user }) => {
   return (
     <>
-      <Link to='/edit'><button className='menu'>Create</button></Link>
+      <Link to='/edit'><button disabled={!user}className='menu'>Create</button></Link>
       <Link to='/list'><button className='menu'>List</button></Link>
     </>
   );
@@ -28,7 +28,7 @@ const Header = ({ user, setUser, setErr }) => {
     </div>
     <div className='menu'>
       {renderLogin()}
-      <Router />
+      <Router user={user} />
     </div>
   </div>
 };

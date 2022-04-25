@@ -14,7 +14,7 @@ const List = ({ setErr }) => {
       const resp = await list();
       setLibs(resp);
     };
-    listFunc().catch(setErr);
+    listFunc().catch(e => console.log(e));
   }, [setErr]);
 
   const renderLibs = () => {

@@ -8,14 +8,13 @@ import Info from './components/Info';
 import { UserContext } from './Context';
 import './App.css';
 
+const Error = ({ err }) => {
+  return <div className='error'>{err}</div>;
+};
+
 function App() {
   const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
   const [err, setErr] = React.useState();
-
-  const renderError = () => {
-    if (!err) return null;
-    return <div className='error'>{err}</div>;
-  };
 
   const routes = useRoutes([
     { path: '/play/:id', element: <Play setErr={setErr} /> },
@@ -30,7 +29,7 @@ function App() {
       <UserContext.Provider value={user}>
         <Header user={user} setUser={setUser} setErr={setErr} />
         <div className='content'>
-          {renderError()}
+          <Error err={err} />
           {routes}
         </div>
       </UserContext.Provider>

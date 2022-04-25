@@ -40,6 +40,9 @@ const Edit = ({ setErr }) => {
     if (!id) return;
     getFunc().catch(setErr);
   }, [id, setErr]);
+  React.useEffect(() => {
+    if (!user) setErr('please log in');
+  }, [setErr, user]);
 
   const handleChange = (e) => {
     setStatus();
@@ -103,6 +106,10 @@ const Edit = ({ setErr }) => {
       {buttons}
     </div>;
   };
+
+  if (!user) {
+    return <div />;
+  }
 
   return <div className='Edit'>
     <div className='status'>{status}</div>
