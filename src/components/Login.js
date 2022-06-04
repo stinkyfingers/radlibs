@@ -1,9 +1,8 @@
 import React from 'react';
-import { GoogleLogin } from 'react-google-login';
+import { clientId } from '../Config';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
 import '../css/login.css';
-
-const clientId = '520868981613-vpe0s1lild8cl62hblmg9bfl01fplu06.apps.googleusercontent.com';
 
 const Login = ({ setUser, setErr }) => {
   const onSuccess = (res) => {
@@ -18,14 +17,12 @@ const Login = ({ setUser, setErr }) => {
 
   return (
     <div className='Login'>
+      <GoogleOAuthProvider clientId={clientId}>
       <GoogleLogin
-        clientId={clientId}
-        render={props => (
-          <button className='login' onClick={props.onClick} disabled={props.disabled}>Log In</button>
-        )}
         onSuccess={onSuccess}
-        onFailure={onFailure}
+        onError={onFailure}
       />
+      </GoogleOAuthProvider>
     </div>
   )
 };
