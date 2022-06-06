@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { UserContext } from '../Context';
 import { get, update, create, remove } from '../Api';
+import { decodeUser } from '../utils';
 
 import '../css/edit.css';
 
@@ -19,7 +20,7 @@ const commonPOS = [
 
 const radlibsUser = (googleUser) => {
   if (!googleUser) return {};
-  return { id: googleUser.googleId, name: googleUser.profileObj.name, email: googleUser.profileObj.email };
+  return { id: decodeUser(googleUser).sub, name: decodeUser(googleUser).name, email: decodeUser(googleUser).email };
 };
 
 const Edit = ({ setErr }) => {
@@ -54,7 +55,7 @@ const Edit = ({ setErr }) => {
     const save = lib._id ? update : create;
     try {
 
-      const resp = await save({ lib, token: user.tokenId });
+      const resp = await save({ lib, token: user.credential});
       if (resp.error) {
         setErr(resp.error);
         return;
@@ -70,7 +71,7 @@ const Edit = ({ setErr }) => {
   const handleDelete = async () => {
     if (!window.confirm("Are you sure?")) return;
     try {
-      const resp = await remove({ id: lib._id, token: user.tokenId });
+      const resp = await remove({ id: lib._id, token: user.credential });
       if (resp.error) {
         setErr(resp.error);
         return;
