@@ -8,7 +8,7 @@ const Login = ({ setUser, setErr }) => {
   const onSuccess = (res) => {
     setErr(null);
     localStorage.setItem('user', JSON.stringify(res));
-    setUser(res.credential);
+    setUser(res);
   };
 
   const onFailure = (res) => {
