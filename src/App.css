@@ -17,7 +17,7 @@ button {
   border: 0;
   border-radius: .2em;
   font-size: 1.4em;
-  width: 6em;
+  min-width: 6em;
 }
 button a {
   text-decoration: none;
@@ -45,6 +45,6 @@ div.content {
 
 @media only screen and (max-width: 600px) {
   button {
-    width: auto;
+    min-width: 4em;
   }
 }

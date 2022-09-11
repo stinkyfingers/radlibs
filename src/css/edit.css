@@ -42,7 +42,6 @@ button.pos {
   color: var(--white);
   margin: .4em;
   font-size: 1.2em;
-  /*display: block;*/
 }
 
 div.commonPos {
@@ -68,6 +67,17 @@ input.custom {
 
 label.custom {
   font-size: .6em;
+}
+
+div.help {
+  width: 90%;
+  margin: auto;
+  font-size: 1.4em;
+}
+
+div.closeHelp {
+  padding: 2em;
+  text-align: center;
 }
 
 @media only screen and (max-width: 600px) {

@@ -4,8 +4,11 @@ import {ErrorContext, UserContext} from '../Context';
 import { useLogout } from '../hooks/useLogout';
 import { get, update, create, remove } from '../Api';
 import { decodeUser } from '../utils';
+import Modal from 'react-modal';
 
 import '../css/edit.css';
+
+Modal.setAppElement('#root');
 
 const commonPOS = [
   'noun',
@@ -30,6 +33,19 @@ const radlibsUser = (googleUser) => {
   return { id: decodeUser(googleUser).sub, name: decodeUser(googleUser).name, email: decodeUser(googleUser).email };
 };
 
+const HelpModal = ({ showHelp, setShowHelp }) => {
+  return <Modal isOpen={showHelp} contentLabel={'Help Me!'} setAppElement={el => el}>
+    <div className={'help'}>
+      Write a story. Whenever you want to permit the user to supply their own part of speech (e.g. 'noun', 'verb', etc.), click the corresponding button.
+      This will create a part of speech in double-curly-brackets, like &#123;&#123; noun &#125;&#125;. Later, when a user plays the RadLib, they will be asked to supply the 
+      part of speech in those double-curly-brackets. To create a custom part-os-speech prompt, enter your custom prompt in the "your custom type" text box and click the button that is 
+      created. 
+      <div className={'closeHelp'}><button onClick={() => setShowHelp(false)}>Close</button></div>
+
+    </div>
+  </Modal>
+}
+
 const Edit = () => {
   const [err, setErr] = React.useContext(ErrorContext);
   const [user] = React.useContext(UserContext);
@@ -37,6 +53,7 @@ const Edit = () => {
   const [lib, setLib] = React.useState(emptyLib);
   const [cursor, setCursor] = React.useState(0); // track last cursor position for inserts
   const [status, setStatus] = React.useState();
+  const [showHelp, setShowHelp] = React.useState(false);
   const [customButton, setCustomButton] = React.useState('');
   const { id } = useParams();
   const textareaRef = React.useRef();
@@ -143,6 +160,10 @@ const Edit = () => {
         <option>PG</option>
         <option>R</option>
       </select>
+    </div>
+    <div className={'showHelp'}>
+      <button className={'helpMe'} onClick={() => setShowHelp(true)}>Help Me!</button>
+      <HelpModal setShowHelp={setShowHelp} showHelp={showHelp} />
     </div>
     <div className='actions'>
       <button disabled={!lib.text || !lib.title || err} className='save' onClick={handleSave}>Save</button>

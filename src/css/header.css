@@ -17,6 +17,7 @@ div.menu {
 button.menu {
   background-color: var(--blue);
   color: var(--white);
+  height: 2em;
 }
 
 button.menu a {
