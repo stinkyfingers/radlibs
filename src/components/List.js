@@ -1,14 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../Context';
+import {ErrorContext, UserContext} from '../Context';
 import { list } from '../Api';
 import { decodeUser } from '../utils';
 
 import '../css/list.css';
 
-const List = ({ setErr }) => {
+const List = () => {
   const [libs, setLibs] = React.useState([]);
-  const user = React.useContext(UserContext);
+  const [user] = React.useContext(UserContext);
+  const [, setErr] = React.useContext(ErrorContext);
 
   React.useEffect(() => {
     const listFunc = async () => {

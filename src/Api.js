@@ -66,13 +66,27 @@ export const remove = async({ id, token }) => {
   return data;
 };
 
-export const auth = async({ user  }) => {
+export const auth = async({ user }) => {
   const res = await fetch(`${api()}/auth/upsert`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(user)
+  });
+  const data = await res.json();
+  if (res.status !== 200) {
+    return { error: data.message };
+  }
+  return data;
+};
+
+export const checkAuth = async({ token }) => {
+  const res = await fetch(`${api()}/auth/health`, {
+    method: 'GET',
+    headers: {
+      'Authorization': token
+    }
   });
   const data = await res.json();
   if (res.status !== 200) {

@@ -5,8 +5,11 @@ import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode';
 
 import '../css/login.css';
+import {ErrorContext, UserContext} from "../Context";
 
-const Login = ({ setUser, setErr }) => {
+const Login = () => {
+  const [, setUser] = React.useContext(UserContext)
+  const [, setErr] = React.useContext(ErrorContext);
   const onSuccess = async(res) => {
     setErr(null);
     const token = jwt_decode(res.credential);

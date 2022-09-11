@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { UserContext } from '../Context';
+import {ErrorContext, UserContext} from '../Context';
+import { useLogout } from '../hooks/useLogout';
 import { get, update, create, remove } from '../Api';
 import { decodeUser } from '../utils';
 
@@ -23,9 +24,10 @@ const radlibsUser = (googleUser) => {
   return { id: decodeUser(googleUser).sub, name: decodeUser(googleUser).name, email: decodeUser(googleUser).email };
 };
 
-const Edit = ({ setErr }) => {
-  const user = React.useContext(UserContext);
-  const emptyLib = { user: radlibsUser(user), rating: 'G' , text: ''};
+const Edit = () => {
+  const [err, setErr] = React.useContext(ErrorContext);
+  const [user] = React.useContext(UserContext);
+  const emptyLib = React.useMemo(() =>({ user: radlibsUser(user), rating: 'G' , text: ''}), [user]);
   const [lib, setLib] = React.useState(emptyLib);
   const [cursor, setCursor] = React.useState(0); // track last cursor position for inserts
   const [status, setStatus] = React.useState();
@@ -33,20 +35,23 @@ const Edit = ({ setErr }) => {
   const { id } = useParams();
   const textareaRef = React.useRef();
   const navigate = useNavigate();
+  
   React.useEffect(() => {
     const getFunc = async () => {
       const resp = await get(id);
       setLib(resp);
     };
-    if (!id) return;
+    if (!id) {
+      setLib(emptyLib);
+      return;
+    };
     getFunc().catch(setErr);
-  }, [id, setErr]);
-  React.useEffect(() => {
-    if (!user) setErr('please log in');
-  }, [setErr, user]);
+  }, [id, setErr, emptyLib]);
+
+  useLogout(setErr)
 
   const handleChange = (e) => {
-    setStatus();
+    setStatus(null);
     setErr();
     setLib(prev => ({ ...prev, [e.target.className]: e.target.value }));
   };
@@ -132,8 +137,8 @@ const Edit = ({ setErr }) => {
       </select>
     </div>
     <div className='actions'>
-      <button disabled={!lib.text || !lib.title} className='save' onClick={handleSave}>Save</button>
-      <button disabled={!lib._id} className='delete' onClick={handleDelete}>Delete</button>
+      <button disabled={!lib.text || !lib.title || err} className='save' onClick={handleSave}>Save</button>
+      <button disabled={!lib._id || err} className='delete' onClick={handleDelete}>Delete</button>
     </div>
   </div>;
 };

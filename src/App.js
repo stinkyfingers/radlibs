@@ -4,8 +4,7 @@ import Header from './components/Header';
 import Play from './components/Play';
 import List from './components/List';
 import Edit from './components/Edit';
-import Info from './components/Info';
-import { UserContext } from './Context';
+import {ErrorContext, UserContext} from './Context';
 import './App.css';
 
 const Error = ({ err }) => {
@@ -17,21 +16,23 @@ function App() {
   const [err, setErr] = React.useState();
 
   const routes = useRoutes([
-    { path: '/play/:id', element: <Play setErr={setErr} /> },
-    { path: '/edit/:id', element: <Edit setErr={setErr} /> },
-    { path: '/edit', element: <Edit setErr={setErr} /> },
-    { path: '/list', element: <List setErr={setErr} /> },
-    { path: '/', element: <Info setErr={setErr} /> },
+    { path: '/play/:id', element: <Play /> },
+    { path: '/edit/:id', element: <Edit /> },
+    { path: '/edit', element: <Edit /> },
+    { path: '/list', element: <List /> },
+    { path: '/', element: <List /> },
   ]);
 
   return (
     <div className="App">
-      <UserContext.Provider value={user}>
-        <Header user={user} setUser={setUser} setErr={setErr} />
-        <div className='content'>
-          <Error err={err} />
-          {routes}
-        </div>
+      <UserContext.Provider value={[user, setUser]}>
+        <ErrorContext.Provider value={[err, setErr]}>
+        <Header />
+          <div className='content'>
+            <Error err={err} />
+            {routes}
+          </div>
+        </ErrorContext.Provider>
       </UserContext.Provider>
     </div>
   );

@@ -1,22 +1,23 @@
 import React from 'react';
+import {decodeUser} from "../utils";
+import {UserContext} from "../Context";
+import '../css/login.css';
 
-const Logout = ({ user, setUser, setErr }) => {
+const Logout = () => {
+  const [user, setUser] = React.useContext(UserContext)
   const handleClick = () => {
     localStorage.removeItem('user');
     setUser(null);
   };
 
-  React.useEffect(() => {
-    if (user && user.tokenObj && user.tokenObj.expires_at < Date.now()) {
-      localStorage.removeItem('user');
-      setUser(null);
-      setErr('Session expired. Please log in again.');
-    }
-  }, [setUser, setErr, user]);
-
+  const userName = () => {
+    const u = decodeUser(user);
+    return u.name;
+  };
+  
   return (
     <div className='Logout'>
-      <button className='login' onClick={handleClick}>Log Out</button>
+      <button className='login' onClick={handleClick}>Log Out <small className={'username'}>{userName()}</small></button>
     </div>
   )
 };

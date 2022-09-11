@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { get } from '../Api';
 
 import '../css/play.css';
+import {ErrorContext} from "../Context";
 
 const populate = (text, inputs) => {
   const regex = /{{[a-zA-Z0-9 "!@#$%^&()-_+=;':,./]*}}/;
@@ -12,7 +13,8 @@ const populate = (text, inputs) => {
   return text;
 }
 
-const Play = ({ setErr }) => {
+const Play = () => {
+  const [, setErr] = React.useContext(ErrorContext);
   const [lib, setLib] = React.useState();
   const [inputs, setInputs] =  React.useState({});
   const { id } = useParams();
