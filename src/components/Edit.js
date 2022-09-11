@@ -9,14 +9,20 @@ import '../css/edit.css';
 
 const commonPOS = [
   'noun',
+  'plural noun',
   'verb',
-  'adjective',
-  'adverb',
-  'name',
-  'exclamation',
   'verb ending in -ing',
   'past tense verb',
-  'place'
+  'adjective',
+  'adverb',
+  'number',
+  'name',
+  'name of person in room',
+  'exclamation',
+  'place',
+  'food',
+  'food plural',
+  'holiday'
 ];
 
 const radlibsUser = (googleUser) => {
@@ -106,10 +112,12 @@ const Edit = () => {
     return <div className='pos'>
       <div className='customButton'>
         <label className='custom'>Custom type</label>
-        <input className='custom' onChange={(e) => setCustomButton(e.target.value)} placeholder='your custom type'/>
+        <input type='text'  autoCapitalize='none' className='custom' onChange={(e) => setCustomButton(e.target.value)} placeholder='your custom type'/>
         {customButton ? <button key='custom' className='pos' onClick={handleClick} value={customButton}>{customButton}</button> : null}
       </div>
-      {buttons}
+      <div className={'commonPos'}>
+        {buttons}
+      </div>
     </div>;
   };
 

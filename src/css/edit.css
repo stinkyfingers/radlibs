@@ -34,7 +34,6 @@ div.actions {
 
 div.pos {
   display: inline;
-
 }
 
 button.pos {
@@ -42,7 +41,15 @@ button.pos {
   background-color: var(--blue);
   color: var(--white);
   margin: .4em;
-  font-size: 1.2em
+  font-size: 1.2em;
+  /*display: block;*/
+}
+
+div.commonPos {
+  overflow: scroll;
+  display: flex;
+  flex-wrap: wrap;
+  height: 10em
 }
 
 button.save {
@@ -61,4 +68,10 @@ input.custom {
 
 label.custom {
   font-size: .6em;
+}
+
+@media only screen and (max-width: 600px) {
+  div.commonPos {
+    height: 10em
+  }
 }
