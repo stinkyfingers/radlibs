@@ -53,7 +53,7 @@ const Play = () => {
     const terms =  all.map((term, i) =>
       <div key={`term-${i}`} className='term'>
         <label className='term'>{term.replace('{{', '').replace('}}','')}</label>
-        <input onChange={(e) => handleTermChange(e, i)} />
+        <input type='text' autoCapitalize={'none'} onChange={(e) => handleTermChange(e, i)} />
       </div>);
     return <>
         {terms}
