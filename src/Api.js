@@ -1,5 +1,7 @@
 const liveEndpoint = "https://server.john-shenk.com/badlibs"; // TODO config
-const localEndpoint = 'http://localhost:8088';
+// const localEndpoint = 'http://localhost:8088';
+const localEndpoint = "https://server.john-shenk.com/badlibs";
+
 const { NODE_ENV, REACT_APP_ENV } = process.env;
 const api = () => {
   if (NODE_ENV === 'development' && REACT_APP_ENV !== 'live') {

@@ -22,7 +22,7 @@ function App() {
     }
     checkAuth({ token: user.credential })
       .then((resp) => {
-        if (resp.error) {
+        if (resp.error || resp.message === 'unauthorized') {
           localStorage.removeItem('user');
           setUser(null);
         }
